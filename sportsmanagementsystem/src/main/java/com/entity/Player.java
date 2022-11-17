@@ -1,13 +1,14 @@
 package com.entity;
 
-import jakarta.persistence.CascadeType;
+
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 	@Entity
@@ -29,9 +30,8 @@ import jakarta.persistence.Table;
     @Column(name="category")
     private String category;
     
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="player_address_id")
-    private PlayerAddress playerAddress;
+    @ManyToMany
+    private List<PlayerAddress> playerAddress;
 
 	public Player() {
 		super();
@@ -76,11 +76,11 @@ import jakarta.persistence.Table;
 		this.category = category;
 	}
 
-	public PlayerAddress getPlayerDetail() {
+	public List<PlayerAddress> getPlayerDetail() {
 		return playerAddress;
 	}
 
-	public void setPlayerAddress(PlayerAddress playerAddress) {
+	public void setPlayerAddress(List<PlayerAddress> playerAddress) {
 		this.playerAddress = playerAddress;
 	}
 
