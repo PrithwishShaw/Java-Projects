@@ -14,4 +14,5 @@ public interface MovieService {
 	String deleteMovieById(int id);
 	List<MovieDTO> getMovieByName(String movieName);
 	List<MovieDTO> getMovieByLocation(String movieLocation);
+	List<MovieDTO> getMovieByPrice(float moviePrice);
 }

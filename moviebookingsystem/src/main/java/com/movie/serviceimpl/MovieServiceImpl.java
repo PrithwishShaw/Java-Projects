@@ -95,5 +95,16 @@ public class MovieServiceImpl implements MovieService{
 		}
 		return movieDTO;
 	}
+
+	@Override
+	public List<MovieDTO> getMovieByPrice(float moviePrice) {
+		List<Movie> movies= movieRepository.getMovieByPrice(moviePrice);
+		List<MovieDTO> movieDTO= new ArrayList<>();
+		for(Movie m: movies)
+		{
+			movieDTO.add(movieConverter.convertToMovieDTO(m));
+		}
+		return movieDTO;
+	}
 	
 }

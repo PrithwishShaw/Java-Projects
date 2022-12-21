@@ -70,4 +70,10 @@ public class MovieController {
 	{
 		return movieService.getMovieByLocation(movieLocation);
 	}	
+	
+	@GetMapping("/getMovieByPrice/{price}")
+	public List<MovieDTO> getMovieByPrice(@PathVariable("price") float moviePrice)
+	{
+		return movieService.getMovieByPrice(moviePrice);
+	}
 }
