@@ -18,7 +18,11 @@ public interface MovieRepository extends JpaRepository<Movie, Integer>{
 	@Query("from Movie where lower(location) like :m%")
 	List<Movie> getMovieByLocation(@Param("m") String location);
 	
+	@Query("from Movie where lower(genre) like :m%")
+	List<Movie> getMovieByGenre(@Param("m") String genre);
 	
 	List<Movie> getMovieByPrice( float price);
+	
+	List<Movie> getMovieByPriceBetween(float startPrice, float endPrice);
 	
 }

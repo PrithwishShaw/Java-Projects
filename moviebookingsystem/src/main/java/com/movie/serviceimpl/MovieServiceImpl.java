@@ -106,5 +106,26 @@ public class MovieServiceImpl implements MovieService{
 		}
 		return movieDTO;
 	}
-	
+
+	@Override
+	public List<MovieDTO> getMovieBYPriceBetween(float startPrice, float endPrice) {
+		List<Movie> movies1= movieRepository.getMovieByPriceBetween(startPrice, endPrice);
+		List<MovieDTO> movieDTO1= new ArrayList<>();
+		for(Movie m:movies1)
+		{
+			movieDTO1.add(movieConverter.convertToMovieDTO(m));
+		}
+		return movieDTO1;
+	}
+
+	@Override
+	public List<MovieDTO> getMovieByGenre(String movieGenre) {
+		List<Movie> movie2= movieRepository.getMovieByGenre(movieGenre);
+		List<MovieDTO> movieDTO2= new ArrayList<>();
+		for(Movie m:movie2)
+		{
+			movieDTO2.add(movieConverter.convertToMovieDTO(m));
+		}
+		return movieDTO2;
+	}
 }

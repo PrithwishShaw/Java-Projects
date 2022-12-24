@@ -8,5 +8,5 @@ public interface BookingService {
 
 	Booking getBookingDetailById(int bookingId);
 	TicketDTO bookTicket(BookingDTO bookingDTO);
-	String cancelTicket(int Id);
+	String cancelTicket(int id);
 }

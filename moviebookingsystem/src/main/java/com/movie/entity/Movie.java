@@ -32,6 +32,9 @@ public class Movie {
 	@Column(name="language", nullable = false, length = 10)
 	private String movieLanguage;
 	
+	@Column(name="genre", nullable = false, length = 10)
+	private String movieGenre;
+	
 	@Column(name="type", nullable = false, length = 10)
 	private String movieType;
 	

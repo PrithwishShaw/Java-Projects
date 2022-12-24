@@ -12,6 +12,7 @@ public class MovieDTO {
 	private String movieName;
 	private String movieLanguage;
 	private String movieType;
+	private String movieGenre;
 	private String location;
 	private String movieTime;
 	private int seatAvailable;

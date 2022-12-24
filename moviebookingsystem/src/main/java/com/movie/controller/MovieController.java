@@ -18,10 +18,6 @@ import com.movie.entity.Movie;
 import com.movie.service.MovieService;
 import com.movie.util.MovieConverter;
 
-
-
-
-
 @RestController
 public class MovieController {
 
@@ -31,13 +27,20 @@ public class MovieController {
 	@Autowired
 	private MovieConverter movieConverter;
 	
-	@PostMapping("/addMovie")
-	public ResponseEntity<String> createMovie(@RequestBody MovieDTO movieDTO)
+	@PostMapping("/addMovie/{role}")
+	public ResponseEntity<String> createMovie(@PathVariable("role") String role,@RequestBody MovieDTO movieDTO)
 	{
 		final Movie movie= movieConverter.convertToMovieEntity(movieDTO);
-		movieService.createMovie(movie);
-		return new ResponseEntity<String>("Movie is added Successfully", 
-				HttpStatus.CREATED);
+		if(role.equals("admin"))
+		{
+			movieService.createMovie(movie);
+			return new ResponseEntity<String>("Movie is added Successfully", 
+					HttpStatus.CREATED);
+		}
+		else
+		{
+			return new ResponseEntity<String>("You are not an admin", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/getAllMovies")
@@ -46,34 +49,49 @@ public class MovieController {
 		return movieService.getAllMovies();
 	}
 	
-	@PutMapping("/updateMovie/{id}")
-	public MovieDTO updateMovie(@PathVariable("id") int id, @RequestBody MovieDTO movieDTO)
+	@PutMapping("/updateMovie/{role}/{id}")
+	public ResponseEntity<?> updateMovie(@PathVariable("role") String role, @PathVariable("id") int id, @RequestBody MovieDTO movieDTO)
 	{
-		Movie movie1= movieConverter.convertToMovieEntity(movieDTO);
-		return movieService.updateMovie(id, movie1);
+		if(role.equals("admin"))
+		{
+			Movie movie1= movieConverter.convertToMovieEntity(movieDTO);
+			return new ResponseEntity<MovieDTO>(movieService.updateMovie(id, movie1), HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<String>("You are not an admin", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
-	@DeleteMapping("/deleteMovieById/{id}")
-	public String deleteMovieById(@PathVariable ("id") int id)
+	@DeleteMapping("/deleteMovieById/{role}/{id}")
+	public ResponseEntity<String> deleteMovieById(@PathVariable("role") String role, @PathVariable ("id") int id)
 	{
-		return movieService.deleteMovieById(id);
+		if(role.equals("admin"))
+		{
+			return new ResponseEntity<String>(movieService.deleteMovieById(id), HttpStatus.OK);
+		}
+		else
+		{
+			return new ResponseEntity<String>("You are not an admin", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
-	@GetMapping("/getMovieByName/{name}")
-	public List<MovieDTO> getMovieByName(@PathVariable("name") String movieName)
+	@GetMapping("/getMovieByGenre/{genre}")
+	public List<MovieDTO> getMovieByGenre(@PathVariable("genre") String genre)
 	{
-		return movieService.getMovieByName(movieName);
+		return movieService.getMovieByGenre(genre);
 	}
-	
-	@GetMapping("/getMovieByLocation/{name}")
-	public List<MovieDTO> getMovieByLocation(@PathVariable("name") String movieLocation)
-	{
-		return movieService.getMovieByLocation(movieLocation);
-	}	
 	
 	@GetMapping("/getMovieByPrice/{price}")
 	public List<MovieDTO> getMovieByPrice(@PathVariable("price") float moviePrice)
 	{
 		return movieService.getMovieByPrice(moviePrice);
 	}
+	
+	@GetMapping("/getMovieByPriceBetween/{startPrice}/{endPrice}")
+	public List<MovieDTO> getMovieByPriceBetween(@PathVariable("startPrice") float startPrice,
+			@PathVariable("endPrice") float endPrice)
+	{
+		return movieService.getMovieBYPriceBetween(startPrice, endPrice);
+	}	
 }
